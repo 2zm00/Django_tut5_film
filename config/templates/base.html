@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-b from-indigo-100 via-white to-gray-100">
+    <!-- 네비바 -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="/" class="text-3xl font-extrabold text-indigo-600 hover:text-indigo-800 transition">
+                🎥 Film Review
+            </a>
+
+            <!-- Links (Desktop) -->
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="/" class="text-gray-700 font-medium hover:text-indigo-600 transition">
+                    Home
+                </a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'film-list' %}" class="text-gray-700 font-medium hover:text-indigo-600 transition">
+                    리뷰 작성하기
+                </a>
+                <span class="text-gray-800 font-semibold">환영합니다, {{ user.username }}!</span>
+                <form action="{% url 'logout' %}" method="post" class="inline">
+                    {% csrf_token %}
+                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition">
+                        로그아웃
+                    </button>
+                </form>
+                {% else %}
+                <a href="{% url 'login' %}" 
+                   class="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-600 transition">
+                    로그인
+                </a>
+                <a href="{% url 'register' %}" 
+                   class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 transition">
+                    회원가입
+                </a>
+                {% endif %}
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="menu-toggle" class="md:hidden text-gray-700 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-100">
+            <a href="/" class="block px-4 py-2 text-gray-700 hover:bg-indigo-100 hover:text-indigo-600 transition">
+                Home
+            </a>
+            {% if user.is_authenticated %}
+            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-indigo-100 hover:text-indigo-600 transition">
+                리뷰 작성하기
+            </a>
+            <form action="#" method="post" class="px-4 py-2">
+                {% csrf_token %}
+                <button 
+                    class="w-full bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition">
+                    로그아웃
+                </button>
+            </form>
+            {% else %}
+            <a href="#" class="block px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
+                로그인
+            </a>
+            <a href="#" class="block px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                회원가입
+            </a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <main class="container mx-auto p-6">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <script>
+        // Toggle Mobile Menu
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

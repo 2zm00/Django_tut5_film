@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-100 via-white to-gray-100">
+    <div class="max-w-md w-full bg-white shadow-2xl rounded-lg overflow-hidden">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-indigo-500 to-purple-500 p-6 text-center text-white">
+            <h2 class="text-3xl font-bold mb-2">로그인 페이지</h2>
+            <p class="text-sm font-light">Welcome back! Please log in to your account.</p>
+        </div>
+        <!-- Body -->
+        <div class="p-6 space-y-6">
+            <form action="{% url 'login' %}" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" 
+                        class="w-full bg-indigo-500 hover:bg-indigo-600 text-white py-3 rounded-lg shadow-lg font-medium transition transform hover:scale-105">
+                    Login
+                </button>
+            </form>
+        </div>
+        <!-- Footer -->
+        <div class="bg-gray-100 p-4 text-center text-gray-600">
+            <small>Don't have an account? 
+                <a href="{% url 'register' %}" class="text-indigo-500 hover:text-indigo-600 font-medium">Sign up here</a>
+            </small>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

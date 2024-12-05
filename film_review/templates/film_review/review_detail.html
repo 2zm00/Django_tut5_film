@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-b from-rose-200 via-white to-rose-100 flex items-center justify-center py-12 px-4">
+    <div class="max-w-4xl w-full bg-white rounded-lg shadow-lg overflow-hidden">
+        <!-- Header -->
+        <div class="bg-rose-500 text-white p-6">
+            <h1 class="text-3xl font-bold">{{ review.film.title }}</h1>
+            <p class="mt-2 text-sm text-rose-200">
+                작성자: <span class="font-medium">{{ review.author.username }}</span>
+            </p>
+        </div>
+        <!-- Body -->
+        <div class="p-6 space-y-4">
+            <h2 class="text-xl font-semibold text-rose-800">리뷰 제목</h2>
+            <p class="text-lg text-rose-700 bg-rose-100 p-4 rounded-lg shadow-inner">
+                {{ review.title }}
+            </p>
+
+            <h2 class="text-xl font-semibold text-rose-800">리뷰 내용</h2>
+            <p class="text-rose-700 leading-relaxed">
+                {{ review.content }}
+            </p>
+        </div>
+        <!-- Footer -->
+        <div class="bg-rose-100 p-6 flex justify-between items-center">
+            <div>
+                <p class="text-sm text-rose-600">작성일: {{ review.created_at }}</p>
+                <p class="text-sm text-rose-600">수정일: {{ review.updated_at }}</p>
+            </div>
+            <span class="text-2xl font-bold text-rose-500">
+                ⭐ {{ review.rating }}/5
+            </span>
+        </div>
+        <!-- Comment Form -->
+        <form action="" method="post" class="p-6 bg-rose-50">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <input type="submit" value="댓글 작성"
+            class="mt-2 px-4 py-2 bg-rose-500 text-white font-bold rounded-lg shadow hover:bg-rose-600 transition">
+        </form>
+        <!-- Comments Section -->
+        <ul class="p-6 space-y-2 bg-white">
+            {% for comment in review.comments.all %}
+                <li class="bg-rose-50 p-4 rounded-lg shadow-inner">
+                    <p class="text-rose-800 font-semibold">{{ comment.author.username }}</p>
+                    <p class="text-rose-700">{{ comment.content }}</p>
+                    <p class="text-sm text-rose-600">{{ comment.created_at }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
